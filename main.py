@@ -216,7 +216,7 @@ def handle_message(event):
                     line_bot_api.reply_message(
                             event.reply_token,
                             [
-                                    TextSendMessage(text=mono.respond(message, max_length_x, n_char, char_indices, indices_char, encoder_model, decoder_model, beta=5))
+                                    TextSendMessage(text=mono.respond(message, max_length_x, n_char, char_indices, indices_char, beta=5))
                             ]
                     )
             elif (event.message.text == "終了"):
