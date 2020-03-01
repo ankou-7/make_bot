@@ -10,7 +10,7 @@ from linebot.models import (
    FollowEvent, MessageEvent, TextMessage, TextSendMessage, ImageMessage, ImageSendMessage, TemplateSendMessage, ButtonsTemplate, PostbackTemplateAction, MessageTemplateAction, URITemplateAction,
        QuickReplyButton, MessageAction, QuickReply,
 )
-from keras.models import load_model
+#from keras.models import load_model
 
 import os
 import wikipedia
@@ -65,8 +65,8 @@ for i, char in enumerate(chars_list):
 n_char = len(chars_list)
 max_length_x = 128
 
-encoder_model = load_model('make_monogatari/model/encoder_model.h5')
-decoder_model = load_model('make_monogatari/model/decoder_model.h5')
+#encoder_model = load_model('make_monogatari/model/encoder_model.h5')
+#decoder_model = load_model('make_monogatari/model/decoder_model.h5')
 ###################################
 
 # MessageEvent

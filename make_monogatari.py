@@ -8,7 +8,7 @@ Created on Mon Mar  2 02:47:27 2020
 
 import numpy as np
 #import pickle
-#from keras.models import load_model
+from keras.models import load_model
 import os
 
 os.environ ['KMP_DUPLICATE_LIB_OK'] = 'True'
@@ -45,13 +45,15 @@ def sentence_to_vector(sentence,max_length_x,n_char,char_indices):
 #encoder_model = load_model('make_monogatari/model/encoder_model.h5')
 #decoder_model = load_model('make_monogatari/model/decoder_model.h5')
 
-def respond(message, max_length_x, n_char, char_indices, indices_char, encoder_model, decoder_model, beta=5):
+def respond(message, max_length_x, n_char, char_indices, indices_char, beta=5):
     vec = sentence_to_vector(message,max_length_x,n_char,char_indices)  # 文字列をone-hot表現に変換
+    encoder_model = load_model('make_monogatari/model/encoder_model.h5')
     state_value = encoder_model.predict(vec)
     y_decoder = np.zeros((1, 1, n_char))  # decoderの出力を格納する配列
     y_decoder[0][0][char_indices['\t']] = 1  # decoderの最初の入力はタブ。one-hot表現にする。
 
     respond_sentence = ""  # 返答の文字列
+    decoder_model = load_model('make_monogatari/model/decoder_model.h5')
     while True:
         y, h = decoder_model.predict([y_decoder, state_value])
         p_power = y[0][0] ** beta  # 確率分布の調整
