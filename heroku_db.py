@@ -204,7 +204,7 @@ def delete_table(table):
 #最初の状態に戻す
 #change_db("menu","activity")
 #change_db("0","flag")
-#a , b = get_db()
+a , b = get_db()
 
 #change_quize_db("おに","犬")
 #print(get_quize_db()[0])
