@@ -45,15 +45,43 @@ def sentence_to_vector(sentence,max_length_x,n_char,char_indices):
 #encoder_model = load_model('make_monogatari/model/encoder_model.h5')
 #decoder_model = load_model('make_monogatari/model/decoder_model.h5')
 
-def respond(message, max_length_x, n_char, char_indices, indices_char, encoder_model, decoder_model, beta=5):
+#def respond(message, max_length_x, n_char, char_indices, indices_char, encoder_model, decoder_model, beta=5):
+#    vec = sentence_to_vector(message,max_length_x,n_char,char_indices)  # 文字列をone-hot表現に変換
+#    state_value = encoder_model.predict(vec)
+#    y_decoder = np.zeros((1, 1, n_char))  # decoderの出力を格納する配列
+#    y_decoder[0][0][char_indices['\t']] = 1  # decoderの最初の入力はタブ。one-hot表現にする。
+#
+#    respond_sentence = ""  # 返答の文字列
+#    while True:
+#        y, h = decoder_model.predict([y_decoder, state_value])
+#        p_power = y[0][0] ** beta  # 確率分布の調整
+#        next_index = np.random.choice(len(p_power), p=p_power/np.sum(p_power)) 
+#        next_char = indices_char[next_index]  # 次の文字
+#        
+#        if (next_char == "\n" or len(respond_sentence) >= max_length_x):
+#            break  # 次の文字が改行のとき、もしくは最大文字数を超えたときは終了
+#            
+#        respond_sentence += next_char
+#        y_decoder = np.zeros((1, 1, n_char))  # 次の時刻の入力
+#        y_decoder[0][0][next_index] = 1
+#
+#        state_value = h  # 次の時刻の状態
+#
+#    return respond_sentence
+
+def respond(message, max_length_x, n_char, char_indices, indices_char, encoder_model, decoder_model, graph_en, graph_de, beta=5):
     vec = sentence_to_vector(message,max_length_x,n_char,char_indices)  # 文字列をone-hot表現に変換
-    state_value = encoder_model.predict(vec)
+    global graph
+    with graph_en.as_default():
+        state_value = encoder_model.predict(vec)
     y_decoder = np.zeros((1, 1, n_char))  # decoderの出力を格納する配列
     y_decoder[0][0][char_indices['\t']] = 1  # decoderの最初の入力はタブ。one-hot表現にする。
 
     respond_sentence = ""  # 返答の文字列
     while True:
-        y, h = decoder_model.predict([y_decoder, state_value])
+        global graph
+        with graph_de.as_default():
+            y, h = decoder_model.predict([y_decoder, state_value])
         p_power = y[0][0] ** beta  # 確率分布の調整
         next_index = np.random.choice(len(p_power), p=p_power/np.sum(p_power)) 
         next_char = indices_char[next_index]  # 次の文字
