@@ -71,34 +71,6 @@ graph_en = tf.get_default_graph()
 
 decoder_model = load_model('make_monogatari/model/decoder_model.h5')
 graph_de = tf.get_default_graph()
-
-#def respond(message, max_length_x, n_char, char_indices, indices_char, beta=5):
-#    vec = mono.sentence_to_vector(message,max_length_x,n_char,char_indices)  # 文字列をone-hot表現に変換
-#    global graph
-#    with graph_en.as_default():
-#        state_value = encoder_model.predict(vec)
-#    y_decoder = np.zeros((1, 1, n_char))  # decoderの出力を格納する配列
-#    y_decoder[0][0][char_indices['\t']] = 1  # decoderの最初の入力はタブ。one-hot表現にする。
-#
-#    respond_sentence = ""  # 返答の文字列
-#    while True:
-#        global graph
-#        with graph_de.as_default():
-#            y, h = decoder_model.predict([y_decoder, state_value])
-#        p_power = y[0][0] ** beta  # 確率分布の調整
-#        next_index = np.random.choice(len(p_power), p=p_power/np.sum(p_power)) 
-#        next_char = indices_char[next_index]  # 次の文字
-#        
-#        if (next_char == "\n" or len(respond_sentence) >= max_length_x):
-#            break  # 次の文字が改行のとき、もしくは最大文字数を超えたときは終了
-#            
-#        respond_sentence += next_char
-#        y_decoder = np.zeros((1, 1, n_char))  # 次の時刻の入力
-#        y_decoder[0][0][next_index] = 1
-#
-#        state_value = h  # 次の時刻の状態
-#
-#    return respond_sentence
 ###################################
 
 # MessageEvent
@@ -114,7 +86,7 @@ def handle_message(event):
                    event.reply_token,
                    [
                         TextSendMessage(text="お疲れ様です" + chr(0x10002D)),
-                        TextSendMessage(text="メニューから選んでね！！\n1 : クイズをする\n2 : お話をする\n3 : 物語を作る\n4 : (漫画を)検索する"),
+                        TextSendMessage(text="メニューから選んでね！！\n1 : クイズをする（漫画を選択する）\n2 : クイズをする（ランダムな漫画作品）\n3 : 一緒に物語を作る\n4 : 語句検索する"),
                     ]
                 )
             elif (event.message.text == "ありがとう！") or (event.message.text == "ありがとう") or (event.message.text == "ありがと！") or (event.message.text == "ありがと"):
@@ -124,7 +96,16 @@ def handle_message(event):
                         TextSendMessage(text="どういたしまして！またね" + chr(0x100033)),
                     ]
             )
-            elif (event.message.text == "1") or (event.message.text == "クイズしようぜ"):
+            elif (event.message.text == "1"):
+                qui.change_db("quize_sentaku","activity")
+                line_bot_api.reply_message(
+                        event.reply_token,
+                        [
+                            TextSendMessage(text="どの漫画作品にする？"),
+                            TextSendMessage(text="漫画タイトルを入力してね"),
+                        ]
+                )
+            elif (event.message.text == "2") or (event.message.text == "クイズしようぜ"):
                 q_list,a_list = pat.make_quize(pt_list) #問題と答えをリストにして格納
                 Q,A = pat.random_quize(q_list,a_list) #格納したリストからランダムに１つ取り出す
                 hinto = pat.make_hinto(A,a_list)
@@ -171,6 +152,34 @@ def handle_message(event):
                         TextSendMessage(text="もう一回いって"),
                     ]
                 )
+    if activity == 'quize_sentaku':
+        if event.type == "message":
+            manga = event.message.text
+            if manga not in title:
+                    line_bot_api.reply_message(
+                           event.reply_token,
+                           [
+                                TextSendMessage(text="ごめんね"),
+                                TextSendMessage(text="このタイトルは対応してないから別のタイトルでやり直してね。"),
+                            ]
+                        )
+            else:
+                    qui.change_db("1","flag")
+                    n = title.index(manga)
+                    qui.change_db(n,"manga")
+                    pt_tapple = pat.bun_all_patarn(kiji_list[n])
+                    q_list,a_list = pat.make_all_quize(pt_tapple,title,n)
+                    Q,A = pat.random_quize(q_list,a_list)
+                    qui.change_quize_db(Q,A,"なし","なし","なし","なし")
+                    qui.change_db("quize","activity")
+                    line_bot_api.reply_message(
+                           event.reply_token,
+                           [
+                                TextSendMessage(text=manga + "で問題を出すよ"),
+                                TextSendMessage(text="【問題】\n" + Q),
+                            ]
+                    )
+                    
     if activity == 'quize':
         if event.type == "message":
             flag=int(qui.get_db()[1])
