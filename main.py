@@ -87,7 +87,7 @@ def handle_message(event):
                    [
                         TextSendMessage(text="なにして遊ぶ？"),
                         TextSendMessage(text="下のメニューから選んでね！！"),
-                        TextSendMessage(text="1　:　クイズをする（漫画を選択する）\n2　:　クイズをする（ランダムな漫画作品）\n3　:　一緒に物語を作る\n4　:　語句検索する"),
+                        TextSendMessage(text="1 : クイズをする（漫画を選択する）\n2 : クイズをする（ランダムな漫画作品）\n3 : 一緒に物語を作る\n4 : 語句検索する"),
                     ]
                 )
             elif (event.message.text == "ありがとう！") or (event.message.text == "ありがとう") or (event.message.text == "ありがと！") or (event.message.text == "ありがと"):
@@ -193,7 +193,13 @@ def handle_message(event):
                             TextSendMessage(text="もう一問やる？\n【はい/いいえ/他の漫画でやる】"),
                         ]
                     )
-                elif (event.message.text != answer):
+                
+                elif (event.message.text != answer) or (event.message.text == "わからない"):
+                        text=""
+                        if event.message.text == "わからない":
+                            text="正解は"+answer+"です。"
+                        else:
+                            text="負正解です。\n正解は"+answer+"です"
                         qui.change_db("1","flag")
                         n=int(qui.get_db()[2])
                         send_message = title[n]
@@ -217,7 +223,7 @@ def handle_message(event):
                         line_bot_api.reply_message(
                            event.reply_token,
                            [
-                                TextSendMessage(text="負正解です。\n正解は"+answer+"です"),
+                                TextSendMessage(text=text),
                                 TextSendMessage(text="下で『"+title[n]+"』の詳細が見られるよ。"),
                                 TextSendMessage(text=reply_message),
                                 TextSendMessage(text="もう一問やる？\n【はい/いいえ/他の漫画でやる】"),
