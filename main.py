@@ -191,15 +191,15 @@ def handle_message(event):
                             TextSendMessage(text="もう一問やりますか？\n【はい/いいえ】"),
                         ]
                     )
-            elif (event.message.text != answer):
-                    qui.change_db("1","flag")
-                    line_bot_api.reply_message(
-                       event.reply_token,
-                       [
-                            TextSendMessage(text="負正解です。\n正解は"+answer+"です"),
-                            TextSendMessage(text="もう一問やりますか？\n【はい/いいえ】"),
-                        ]
-                    )
+                elif (event.message.text != answer):
+                        qui.change_db("1","flag")
+                        line_bot_api.reply_message(
+                           event.reply_token,
+                           [
+                                TextSendMessage(text="負正解です。\n正解は"+answer+"です"),
+                                TextSendMessage(text="もう一問やりますか？\n【はい/いいえ】"),
+                            ]
+                        )
             elif(flag==1):
                 if (event.message.text == "はい"):
                     n=int(qui.get_db()[2])
