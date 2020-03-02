@@ -216,6 +216,7 @@ def handle_message(event):
                            event.reply_token,
                            [
                                 TextSendMessage(text="負正解です。\n正解は"+answer+"です"),
+                                TextSendMessage(text="下で『"+title[n]+"』の詳細が見られるよ。"),
                                 TextSendMessage(text=reply_message),
                                 TextSendMessage(text="もう一問やりますか？\n【はい/いいえ】"),
                             ]
