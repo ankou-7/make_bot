@@ -188,7 +188,7 @@ def handle_message(event):
                        event.reply_token,
                        [
                             TextSendMessage(text="正解です。\n素晴らしいですね！！"),
-                            TextSendMessage(text="もう一問やりますか？\n【はい/いいえ】"),
+                            TextSendMessage(text="もう一問やる？\n【はい/いいえ/他の漫画でやる】"),
                         ]
                     )
                 elif (event.message.text != answer):
@@ -218,7 +218,7 @@ def handle_message(event):
                                 TextSendMessage(text="負正解です。\n正解は"+answer+"です"),
                                 TextSendMessage(text="下で『"+title[n]+"』の詳細が見られるよ。"),
                                 TextSendMessage(text=reply_message),
-                                TextSendMessage(text="もう一問やりますか？\n【はい/いいえ】"),
+                                TextSendMessage(text="もう一問やる？\n【はい/いいえ/他の漫画でやる】"),
                             ]
                         )
             elif(flag==1):
@@ -242,6 +242,15 @@ def handle_message(event):
                             event.reply_token,
                             [
                                 TextSendMessage(text="またね"),
+                            ]
+                    )
+                elif (event.message.text == "他の漫画でやる"):
+                    qui.change_db("0","flag")
+                    qui.change_db("quize_sentaku","activity")
+                    line_bot_api.reply_message(
+                            event.reply_token,
+                            [
+                                TextSendMessage(text="どの漫画作品にする？\n漫画タイトルを入力してね"),
                             ]
                     )
                 else:
