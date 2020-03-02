@@ -81,7 +81,7 @@ def handle_message(event):
     
     if activity == 'menu':
         if event.type == "message":
-            if (event.message.text == "へいbot") or (event.message.text == "bot"):
+            if (event.message.text == "遊ぼう") or (event.message.text == "bot"):
                 line_bot_api.reply_message(
                    event.reply_token,
                    [
@@ -124,7 +124,7 @@ def handle_message(event):
                 line_bot_api.reply_message(
                         event.reply_token,
                         [
-                            TextSendMessage(text="交互に物語を作っていくよ。\n最初に入力をしてね。"),
+                            TextSendMessage(text="交互に文を書いて物語を作っていくよ。\n最初に入力してね。"),
                         ]
                 )
             elif (event.message.text == "4") or (event.message.text == "検索したい"):
@@ -241,7 +241,7 @@ def handle_message(event):
                     line_bot_api.reply_message(
                             event.reply_token,
                             [
-                                TextSendMessage(text="またね"),
+                                TextSendMessage(text="また遊ぼうね!!"),
                             ]
                     )
                 elif (event.message.text == "他の漫画でやる"):
@@ -340,7 +340,7 @@ def handle_message(event):
                                     TextSendMessage(text=mono.respond(message, max_length_x, n_char, char_indices, indices_char, encoder_model, decoder_model, graph_en, graph_de, beta=5))
                             ]
                     )
-            elif (event.message.text == "終了"):
+            elif (event.message.text == "終了") or (event.message.text == "めでたしめでたし"):
                 qui.change_db("menu","activity")
                 line_bot_api.reply_message(
                         event.reply_token,
