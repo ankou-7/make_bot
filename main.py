@@ -101,8 +101,7 @@ def handle_message(event):
                 line_bot_api.reply_message(
                         event.reply_token,
                         [
-                            TextSendMessage(text="どの漫画作品にする？"),
-                            TextSendMessage(text="漫画タイトルを入力してね"),
+                            TextSendMessage(text="どの漫画作品にする？\n漫画タイトルを入力してね"),
                         ]
                 )
             elif (event.message.text == "2") or (event.message.text == "クイズしようぜ"):
@@ -166,7 +165,7 @@ def handle_message(event):
             else:
                     qui.change_db("1","flag")
                     n = title.index(manga)
-                    qui.change_db(n,"manga")
+                    qui.change_db(str(n),"manga")
                     pt_tapple = pat.bun_all_patarn(kiji_list[n])
                     q_list,a_list = pat.make_all_quize(pt_tapple,title,n)
                     Q,A = pat.random_quize(q_list,a_list)
