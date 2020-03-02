@@ -124,7 +124,7 @@ def handle_message(event):
                 line_bot_api.reply_message(
                         event.reply_token,
                         [
-                            TextSendMessage(text="交互に物語を作っていきます。\n最初に入力をしてね。"),
+                            TextSendMessage(text="交互に物語を作っていくよ。\n最初に入力をしてね。"),
                         ]
                 )
             elif (event.message.text == "4") or (event.message.text == "検索したい"):
