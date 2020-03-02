@@ -53,7 +53,7 @@ title = pat.titlename(kiji_list)
 pt_list=pat.bun_patarn(kiji_list)
 
 ####################################
-with open('make_monogatari/kana_chars_monogatari.pickle', mode='rb') as f:
+with open('make_monogatari/new_kana_chars_monogatari.pickle', mode='rb') as f:
     chars_list = pickle.load(f)
 
 char_indices = {}
@@ -66,10 +66,10 @@ for i, char in enumerate(chars_list):
 n_char = len(chars_list)
 max_length_x = 128
 
-encoder_model = load_model('make_monogatari/model/encoder_model.h5')
+encoder_model = load_model('make_monogatari/model/new_encoder_model.h5')
 graph_en = tf.get_default_graph()
 
-decoder_model = load_model('make_monogatari/model/decoder_model.h5')
+decoder_model = load_model('make_monogatari/model/new_decoder_model.h5')
 graph_de = tf.get_default_graph()
 ###################################
 
