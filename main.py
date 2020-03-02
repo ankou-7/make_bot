@@ -53,7 +53,7 @@ title = pat.titlename(kiji_list)
 pt_list=pat.bun_patarn(kiji_list)
 
 ####################################
-with open('make_monogatari/new_kana_chars_monogatari.pickle', mode='rb') as f:
+with open('make_monogatari/new_kana_chars.pickle', mode='rb') as f:
     chars_list = pickle.load(f)
 
 char_indices = {}
