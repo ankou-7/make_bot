@@ -221,20 +221,20 @@ def make_hinto(ans,ans_list):
     random.shuffle(hinto)
     return hinto
 
-kiji_list = make_kiji()
-title = titlename(kiji_list)
+#kiji_list = make_kiji()
+#title = titlename(kiji_list)
 #pt_list=bun_patarn3(kiji_list)
 
-if "あ" not in title:
-    print("aa")
-if "弱虫ペダル" in title:
-    print("bb")
-n = title.index("あ")
-kiji = kuuhakujokyo(re.split('[\n。\t]', kiji_list[n]))
-pt_tapple = bun_all_patarn(kiji_list[n])
-print(pt_tapple.get(4))
-print(len(pt_tapple))
-q,a = make_all_quize(pt_tapple,title,n)
+#if "あ" not in title:
+#    print("aa")
+#if "弱虫ペダル" in title:
+#    print("bb")
+#n = title.index("あ")
+#kiji = kuuhakujokyo(re.split('[\n。\t]', kiji_list[n]))
+#pt_tapple = bun_all_patarn(kiji_list[n])
+#print(pt_tapple.get(4))
+#print(len(pt_tapple))
+#q,a = make_all_quize(pt_tapple,title,n)
 
 #pt_list = rensyu_patarn(kiji_list)
 #s="自転車競技（主にロードレース）を題材にした本格的なスポーツ漫画"
