@@ -158,19 +158,17 @@ def handle_message(event):
                     line_bot_api.reply_message(
                            event.reply_token,
                            [
-                                TextSendMessage(text="ごめんね"),
-                                TextSendMessage(text="このタイトルは対応してないから別のタイトルでやり直してね。"),
+                                TextSendMessage(text="ごめんね\nこの漫画記事はないから別のタイトルでやり直してね。"),
                             ]
                         )
             else:
-                    qui.change_db("1","flag")
                     n = title.index(manga)
                     qui.change_db(str(n),"manga")
                     pt_tapple = pat.bun_all_patarn(kiji_list[n])
                     q_list,a_list = pat.make_all_quize(pt_tapple,title,n)
                     Q,A = pat.random_quize(q_list,a_list)
                     qui.change_quize_db(Q,A,"なし","なし","なし","なし")
-                    qui.change_db("quize","activity")
+                    qui.change_db("quize2","activity")
                     line_bot_api.reply_message(
                            event.reply_token,
                            [
@@ -178,7 +176,60 @@ def handle_message(event):
                                 TextSendMessage(text="【問題】\n" + Q),
                             ]
                     )
-                    
+    if activity == 'quize2':
+        if event.type == "message":
+            flag=int(qui.get_db()[1])
+            answer=qui.get_quize_db()[1]
+            h1,h2,h3,h4 = qui.get_quize_db()[2],qui.get_quize_db()[3],qui.get_quize_db()[4],qui.get_quize_db()[5]
+            if (flag==0):
+                if (event.message.text == answer):
+                    qui.change_db("1","flag")
+                    line_bot_api.reply_message(
+                       event.reply_token,
+                       [
+                            TextSendMessage(text="正解です。\n素晴らしいですね！！"),
+                            TextSendMessage(text="もう一問やりますか？\n【はい/いいえ】"),
+                        ]
+                    )
+            elif (event.message.text != answer):
+                    qui.change_db("1","flag")
+                    line_bot_api.reply_message(
+                       event.reply_token,
+                       [
+                            TextSendMessage(text="負正解です。\n正解は"+answer+"です"),
+                            TextSendMessage(text="もう一問やりますか？\n【はい/いいえ】"),
+                        ]
+                    )
+            elif(flag==1):
+                if (event.message.text == "はい"):
+                    n=int(qui.get_db()[2])
+                    pt_tapple = pat.bun_all_patarn(kiji_list[n])
+                    q_list,a_list = pat.make_all_quize(pt_tapple,title,n)
+                    Q,A = pat.random_quize(q_list,a_list)
+                    qui.change_quize_db(Q,A,"なし","なし","なし","なし")
+                    qui.change_db("0","flag")
+                    line_bot_api.reply_message(
+                            event.reply_token,
+                            [
+                                TextSendMessage(text="【問題】\n" + Q),
+                            ]
+                    )
+                elif (event.message.text == "いいえ"):
+                    qui.change_db("0","flag")
+                    qui.change_db("menu","activity")
+                    line_bot_api.reply_message(
+                            event.reply_token,
+                            [
+                                TextSendMessage(text="またね"),
+                            ]
+                    )
+                else:
+                    line_bot_api.reply_message(
+                            event.reply_token,
+                            [
+                                TextSendMessage(text="【はい/いいえ】で答えてね"),
+                            ]
+                    )
     if activity == 'quize':
         if event.type == "message":
             flag=int(qui.get_db()[1])
