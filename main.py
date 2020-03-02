@@ -332,7 +332,7 @@ def handle_message(event):
                     )
     if activity == 'make_story':
         if event.type == "message":
-            if (event.message.text != "終了") or (event.message.text != "めでたしめでたし"):
+            if (event.message.text != "めでたしめでたし"):
                 message = event.message.text #入力文
                 if mono.is_invalid(message, chars_list):
                     line_bot_api.reply_message(
@@ -348,7 +348,7 @@ def handle_message(event):
                                     TextSendMessage(text=mono.respond(message, max_length_x, n_char, char_indices, indices_char, encoder_model, decoder_model, graph_en, graph_de, beta=5))
                             ]
                     )
-            elif (event.message.text == "終了") or (event.message.text == "めでたしめでたし"):
+            elif (event.message.text == "めでたしめでたし"):
                 qui.change_db("menu","activity")
                 line_bot_api.reply_message(
                         event.reply_token,
