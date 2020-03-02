@@ -86,7 +86,8 @@ def handle_message(event):
                    event.reply_token,
                    [
                         TextSendMessage(text="なにして遊ぶ？"),
-                        TextSendMessage(text="メニューから選んでね！！\n1 : クイズをする（漫画を選択する）\n2 : クイズをする（ランダムな漫画作品）\n3 : 一緒に物語を作る\n4 : 語句検索する"),
+                        TextSendMessage(text="下のメニューから選んでね！！"),
+                        TextSendMessage(text="1　:　クイズをする（漫画を選択する）\n2　:　クイズをする（ランダムな漫画作品）\n3　:　一緒に物語を作る\n4　:　語句検索する"),
                     ]
                 )
             elif (event.message.text == "ありがとう！") or (event.message.text == "ありがとう") or (event.message.text == "ありがと！") or (event.message.text == "ありがと"):
@@ -125,6 +126,7 @@ def handle_message(event):
                         event.reply_token,
                         [
                             TextSendMessage(text="交互に文を書いて物語を作っていくよ。\n最初に入力してね。"),
+                            TextSendMessage(text="最初に入力してね。"),
                         ]
                 )
             elif (event.message.text == "4") or (event.message.text == "検索したい"):
