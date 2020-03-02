@@ -85,7 +85,7 @@ def handle_message(event):
                 line_bot_api.reply_message(
                    event.reply_token,
                    [
-                        TextSendMessage(text="お疲れ様です" + chr(0x10002D)),
+                        TextSendMessage(text="なにして遊ぶ？"),
                         TextSendMessage(text="メニューから選んでね！！\n1 : クイズをする（漫画を選択する）\n2 : クイズをする（ランダムな漫画作品）\n3 : 一緒に物語を作る\n4 : 語句検索する"),
                     ]
                 )
