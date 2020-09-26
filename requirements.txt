@@ -4,5 +4,5 @@ wikipedia==1.4.0
 PyMySQL==0.9.3
 numpy==1.18.1
 Keras==2.2.4
-tensorflow==1.14.0
+tensorflow==1.15.4
 
